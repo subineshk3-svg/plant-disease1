@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriScan AI — Advanced Plant & Fruit Disease Detection Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for Admin Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            agri: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+              950: '#052e16',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
+
+  <!-- TOP ENTERPRISE NAVIGATION BAR -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Brand & Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-agri-600 to-agri-900 flex items-center justify-center text-white shadow-md shadow-agri-600/20">
+            <i data-lucide="sprout" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xl font-bold tracking-tight text-agri-950">AgriScan<span class="text-agri-600">.AI</span></span>
+              <span class="bg-agri-100 text-agri-800 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-agri-200">v2.4 Pro</span>
+            </div>
+            <p class="text-[11px] text-slate-500 hidden sm:block">Advanced Plant & Fruit Disease Diagnostics</p>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-medium">
+          <button onclick="navigateTo('home')" id="nav-home" class="nav-item px-3 py-2 rounded-lg text-slate-600 hover:text-agri-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>Home</span>
+          </button>
+          <button onclick="navigateTo('detection')" id="nav-detection" class="nav-item px-3 py-2 rounded-lg text-slate-600 hover:text-agri-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
+            <i data-lucide="scan" class="w-4 h-4"></i>
+            <span>Disease Detection</span>
+          </button>
+          <button onclick="navigateTo('results')" id="nav-results" class="nav-item px-3 py-2 rounded-lg text-slate-600 hover:text-agri-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>Diagnostic Results</span>
+          </button>
+          <button onclick="navigateTo('chat')" id="nav-chat" class="nav-item px-3 py-2 rounded-lg text-slate-600 hover:text-agri-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
+            <i data-lucide="bot" class="w-4 h-4"></i>
+            <span>AI Treatment Assistant</span>
+          </button>
+          <button onclick="navigateTo('library')" id="nav-library" class="nav-item px-3 py-2 rounded-lg text-slate-600 hover:text-agri-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>Disease Library</span>
+          </button>
+          <button onclick="navigateTo('history')" id="nav-history" class="nav-item px-3 py-2 rounded-lg text-slate-600 hover:text-agri-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
+            <i data-lucide="history" class="w-4 h-4"></i>
+            <span>My History</span>
+          </button>
+        </nav>
+
+        <!-- Right Side Badges & CTA -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <div id="system-health-pill" class="hidden sm:flex items-center space-x-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-200 text-xs font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="health-label">CV Engine Online</span>
+          </div>
+
+          <!-- Guest Auth Actions -->
+          <div id="header-guest-nav" class="flex items-center space-x-1.5 sm:space-x-2">
+            <button onclick="navigateTo('login')" class="px-3 py-1.5 border border-slate-300 hover:border-agri-600 hover:text-agri-700 text-slate-700 rounded-lg text-xs font-semibold transition-colors flex items-center space-x-1">
+              <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+              <span>Sign In</span>
+            </button>
+            <button onclick="navigateTo('signup')" class="px-3 py-1.5 bg-agri-700 hover:bg-agri-800 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors flex items-center space-x-1">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+              <span>Sign Up</span>
+            </button>
+          </div>
+
+          <!-- Authenticated User Profile Pill & Logout -->
+          <div id="header-user-nav" class="hidden flex items-center space-x-2">
+            <button onclick="navigateTo('profile')" class="flex items-center space-x-2 px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 transition-colors" title="My Profile & Settings">
+              <span id="header-user-avatar" class="w-6 h-6 rounded-full bg-agri-700 text-white flex items-center justify-center text-[11px] font-bold">U</span>
+              <span id="header-user-name" class="text-xs font-bold truncate max-w-[90px] sm:max-w-[120px]">Farmer</span>
+            </button>
+            <button onclick="handleLogout()" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors" title="Log Out">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <button onclick="navigateTo('detection')" class="px-3 sm:px-4 py-2 bg-agri-700 hover:bg-agri-800 text-white rounded-lg text-xs sm:text-sm font-semibold shadow-sm transition-all flex items-center space-x-1.5">
+            <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">New Diagnosis</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PAGE CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ================= PAGE 1: HOME ================= -->
+    <section id="page-home" class="page-content space-y-12">
+      <!-- Hero Section -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-agri-950 via-agri-900 to-slate-900 text-white p-8 sm:p-12 lg:p-16 shadow-xl">
+        <div class="relative z-10 max-w-3xl space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-agri-500/20 text-agri-300 rounded-full border border-agri-400/30 text-xs font-semibold tracking-wide uppercase">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>Real PlantVillage Computer Vision & Gemini Vision Diagnostics</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+            Protect Crops with <span class="text-agri-400">AI-Powered</span> Disease Intelligence.
+          </h1>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+            Designed for farmers, agronomic researchers, and agricultural students. Upload photos of plant foliage, stems, or fruits for instantaneous disease classification, lesion bounding box localization, severity scoring, and bilingual English & Tamil treatment recommendations.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <button onclick="navigateTo('detection')" class="px-6 py-3.5 bg-agri-500 hover:bg-agri-400 text-agri-950 font-bold rounded-xl shadow-lg shadow-agri-500/25 transition-all flex items-center space-x-2">
+              <i data-lucide="camera" class="w-5 h-5"></i>
+              <span>Launch Diagnostic Scan</span>
+            </button>
+            <button onclick="navigateTo('library')" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 transition-all flex items-center space-x-2">
+              <i data-lucide="search" class="w-5 h-5"></i>
+              <span>Explore Disease Library (38+ Classes)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Performance Metrics Ticker -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-agri-100 text-agri-700 flex items-center justify-center">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-slate-900">38 Classes</div>
+            <div class="text-xs text-slate-500">PlantVillage CV Model</div>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
+            <i data-lucide="target" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-slate-900">93.8%</div>
+            <div class="text-xs text-slate-500">Benchmark Precision</div>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+            <i data-lucide="wheat" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-slate-900">19 Crops</div>
+            <div class="text-xs text-slate-500">Fruits, Cereals, Veggies</div>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
+            <i data-lucide="languages" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-slate-900">EN & தமிழ்</div>
+            <div class="text-xs text-slate-500">Bilingual Reports & Chat</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Test Drive: Sample Gallery -->
+      <div class="space-y-4">
+        <div class="flex justify-between items-end">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Quick Test Drive (One-Click Diagnostic Samples)</h2>
+            <p class="text-sm text-slate-500">Click any real leaf image below to run the live Computer Vision model immediately.</p>
+          </div>
+          <span class="text-xs font-semibold text-agri-700 bg-agri-50 px-3 py-1 rounded-full border border-agri-200">No upload required</span>
+        </div>
+        <div id="home-samples-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- How It Works (Pipeline) -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">Rigorous 4-Stage Diagnostic Pipeline</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="space-y-2">
+            <div class="w-9 h-9 rounded-lg bg-agri-100 text-agri-800 flex items-center justify-center font-bold text-sm">1</div>
+            <h3 class="font-semibold text-slate-800">Quality & Tissue Check</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Laplacian blur evaluation, luminance analysis, and Excess Green Index verification to filter non-plant images and insufficient evidence.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-9 h-9 rounded-lg bg-agri-100 text-agri-800 flex items-center justify-center font-bold text-sm">2</div>
+            <h3 class="font-semibold text-slate-800">Symptom Localization</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Adaptive color segmentation isolates necrotic lesions, chlorotic halos, and powdery patches with localized bounding boxes.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-9 h-9 rounded-lg bg-agri-100 text-agri-800 flex items-center justify-center font-bold text-sm">3</div>
+            <h3 class="font-semibold text-slate-800">Multi-Class Classification</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Cross-referenced against 38 PlantVillage disease profiles with top-5 differential alternatives and calibrated confidence.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-9 h-9 rounded-lg bg-agri-100 text-agri-800 flex items-center justify-center font-bold text-sm">4</div>
+            <h3 class="font-semibold text-slate-800">Actionable Prescription</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Generates a 16-field agronomic report with organic remedies, locally registered chemicals, PDF export, and bilingual AI chat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 2: DISEASE DETECTION ================= -->
+    <section id="page-detection" class="page-content hidden space-y-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Crop Disease Diagnostic Scanner</h1>
+          <p class="text-sm text-slate-500">Capture or upload plant foliage for automated computer vision lesion detection and severity evaluation.</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <label for="crop-selector" class="text-xs font-semibold text-slate-700 whitespace-nowrap">Select Crop:</label>
+          <select id="crop-selector" class="bg-white border border-slate-300 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-agri-500 focus:outline-none">
+            <option value="auto">Auto-Detect by AI</option>
+            <option value="Tomato">Tomato</option>
+            <option value="Potato">Potato</option>
+            <option value="Corn (Maize)">Corn (Maize)</option>
+            <option value="Apple">Apple</option>
+            <option value="Grape">Grape</option>
+            <option value="Bell Pepper / Capsicum">Bell Pepper / Capsicum</option>
+            <option value="Peach">Peach</option>
+            <option value="Cherry">Cherry</option>
+            <option value="Strawberry">Strawberry</option>
+            <option value="Squash / Cucurbits">Squash / Cucurbits</option>
+            <option value="Orange / Citrus">Orange / Citrus</option>
+            <option value="Rice">Rice</option>
+            <option value="Mango">Mango</option>
+            <option value="Banana">Banana</option>
+            <option value="Chilli / Hot Pepper">Chilli / Hot Pepper</option>
+            <option value="Cotton">Cotton</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Upload Interface Container -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left: Upload / Dropzone & Camera -->
+        <div class="lg:col-span-2 space-y-6">
+
+          <!-- Dropzone Card -->
+          <div id="dropzone" class="relative border-2 border-dashed border-slate-300 hover:border-agri-500 rounded-2xl p-8 sm:p-12 bg-white text-center transition-all cursor-pointer group">
+            <input type="file" id="file-input" class="hidden" accept=".jpg,.jpeg,.png,.webp" multiple>
+
+            <div class="space-y-4">
+              <div class="w-16 h-16 mx-auto rounded-2xl bg-agri-50 text-agri-600 group-hover:scale-110 group-hover:bg-agri-100 transition-all flex items-center justify-center">
+                <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-slate-900">Drag & drop plant image here</h3>
+                <p class="text-sm text-slate-500 mt-1">or <span class="text-agri-700 font-semibold underline">browse from your device</span></p>
+              </div>
+              <p class="text-xs text-slate-400">Supported formats: JPG, JPEG, PNG, WEBP (Max 15MB)</p>
+            </div>
+          </div>
+
+          <!-- Camera Capture Drawer (Live WebCam) -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="camera" class="w-5 h-5 text-agri-700"></i>
+                <h3 class="font-bold text-slate-900 text-sm">Direct Camera Capture</h3>
+              </div>
+              <div class="space-x-2">
+                <button id="btn-start-camera" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors">
+                  Open Camera
+                </button>
+                <button id="btn-snap-camera" class="hidden px-3 py-1.5 bg-agri-600 hover:bg-agri-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
+                  Take Snapshot
+                </button>
+                <button id="btn-stop-camera" class="hidden px-2.5 py-1.5 text-rose-600 hover:bg-rose-50 text-xs font-semibold rounded-lg transition-colors">
+                  Close
+                </button>
+              </div>
+            </div>
+
+            <!-- Video Viewport -->
+            <div id="camera-container" class="hidden relative aspect-video bg-black rounded-xl overflow-hidden">
+              <video id="camera-feed" autoplay playsinline class="w-full h-full object-cover"></video>
+              <canvas id="camera-canvas" class="hidden"></canvas>
+            </div>
+          </div>
+
+          <!-- Uploaded Files Preview & Queue -->
+          <div id="queue-container" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 text-sm">Staged Image Queue (<span id="queue-count">0</span>)</h3>
+              <button id="btn-clear-queue" class="text-xs text-rose-600 hover:underline font-semibold">Clear All</button>
+            </div>
+            <div id="queue-list" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Action Button: Start Analysis -->
+          <div class="flex items-center justify-end space-x-4">
+            <button id="btn-analyze" disabled class="w-full sm:w-auto px-8 py-3.5 bg-slate-300 text-slate-500 font-bold rounded-xl transition-all flex items-center justify-center space-x-2 cursor-not-allowed">
+              <i data-lucide="scan-line" class="w-5 h-5"></i>
+              <span>Run AI Model Diagnosis</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Diagnostic Guidelines & Tips -->
+        <div class="space-y-6">
+          <div class="bg-gradient-to-br from-agri-900 to-slate-900 text-white p-6 rounded-2xl shadow-sm space-y-4">
+            <div class="flex items-center space-x-2 text-agri-400 font-semibold text-sm">
+              <i data-lucide="alert-circle" class="w-4 h-4"></i>
+              <span>Photography Guidelines</span>
+            </div>
+            <h4 class="font-bold text-lg leading-snug">How to achieve 95%+ diagnostic accuracy</h4>
+            <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+              <li class="flex items-start space-x-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-agri-400 shrink-0 mt-0.5"></i>
+                <span><b>Focus on Symptoms:</b> Capture visible lesions, spots, yellowing rings, or powdery patches directly.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-agri-400 shrink-0 mt-0.5"></i>
+                <span><b>Natural Indirect Light:</b> Avoid severe shadow casting or extreme flashlight glare wash-out.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-agri-400 shrink-0 mt-0.5"></i>
+                <span><b>Steady Focus:</b> Ensure sharp margins. AgriScan AI automatically rejects excessively blurry images.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-agri-400 shrink-0 mt-0.5"></i>
+                <span><b>Isolate the Plant:</b> Keep non-plant background objects (fingers, tools, pavement) minimized.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Model Transparency Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i>
+              <span>Diagnostic Integrity Guarantee</span>
+            </h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              AgriScan AI is engineered with strict safeguards: if an uploaded image lacks sufficient foliar evidence or presents inconclusive signals, the system outputs an <b>Unknown / Uncertain</b> category rather than fabricating a disease prediction.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Scanning Modal Overlay -->
+      <div id="scanning-overlay" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center space-y-6 shadow-2xl relative overflow-hidden">
+          <div class="radar-line"></div>
+          <div class="relative w-28 h-28 mx-auto rounded-2xl bg-slate-900 overflow-hidden flex items-center justify-center border-2 border-agri-500">
+            <img id="scan-preview-thumb" src="" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <i data-lucide="scan" class="w-12 h-12 text-agri-400 animate-spin"></i>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-slate-900">Computer Vision Scanning...</h3>
+            <p id="scan-status-text" class="text-xs text-slate-500 mt-1">Analyzing foliar texture & segmenting lesions...</p>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="scan-progress-bar" class="bg-agri-500 h-2 rounded-full w-1/3 transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 3: DIAGNOSTIC RESULTS ================= -->
+    <section id="page-results" class="page-content hidden space-y-8">
+      <!-- Top Actions Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-bold text-agri-800 bg-agri-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider" id="res-badge-status">Official Diagnosis</span>
+            <span class="text-xs text-slate-400" id="res-scan-time">Analysis Time: Today</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1" id="res-disease-title">Tomato Early Blight</h1>
+          <p class="text-sm text-slate-500" id="res-scientific-name">Alternaria solani</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5">
+          <!-- PDF Export Dropdown/Buttons -->
+          <button onclick="downloadPdf('en')" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5">
+            <i data-lucide="download" class="w-4 h-4 text-agri-600"></i>
+            <span>Export English PDF</span>
+          </button>
+          <button onclick="downloadPdf('ta')" class="px-3.5 py-2 bg-agri-50 hover:bg-agri-100 text-agri-800 border border-agri-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5">
+            <i data-lucide="download" class="w-4 h-4 text-agri-600"></i>
+            <span>தமிழ் அறிக்கை (PDF)</span>
+          </button>
+          <button onclick="openChatWithContext()" class="px-4 py-2 bg-agri-700 hover:bg-agri-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5">
+            <i data-lucide="bot" class="w-4 h-4"></i>
+            <span>Ask AI Assistant</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Visual & Severity Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Visual Comparison Viewport (Original vs Annotated Bounding Boxes) -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm space-y-4 p-5">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="scan" class="w-4 h-4 text-agri-700"></i>
+              <span class="text-sm font-bold text-slate-800">Visual Lesion Localization (YOLO Detector)</span>
+            </div>
+            <!-- Toggle Mode -->
+            <div class="flex items-center bg-slate-100 p-0.5 rounded-lg text-xs font-semibold">
+              <button id="btn-toggle-annotated" onclick="toggleResultImage('annotated')" class="px-3 py-1 rounded-md bg-white text-slate-900 shadow-sm transition-all">Annotated Bounding Boxes</button>
+              <button id="btn-toggle-original" onclick="toggleResultImage('original')" class="px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all">Raw Photograph</button>
+            </div>
+          </div>
+
+          <!-- Image Container -->
+          <div class="relative aspect-video max-h-[460px] bg-slate-900 rounded-xl overflow-hidden flex items-center justify-center">
+            <img id="res-main-image" src="" alt="Diagnosis Visual" class="max-h-full max-w-full object-contain">
+            <div id="bbox-overlay-layer" class="absolute inset-0 pointer-events-none"></div>
+          </div>
+
+          <!-- Bounding Boxes Legend -->
+          <div id="symptom-boxes-legend" class="flex flex-wrap gap-2 pt-2">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Severity, Confidence & Metrics Column -->
+        <div class="space-y-6">
+          <!-- Severity Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 text-sm">Foliar Disease Severity</h3>
+              <span id="res-severity-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">Moderate (18.4%)</span>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs text-slate-500 font-semibold">
+                <span>Healthy (0%)</span>
+                <span>Mild (10%)</span>
+                <span>Moderate (25%)</span>
+                <span>Severe (50%+)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                <div id="res-severity-bar" class="severity-bar-fill h-full rounded-full bg-amber-500" style="width: 18%;"></div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed" id="res-severity-desc">
+              Percentage of surface necrotic and chlorotic tissue relative to healthy photosynthetic leaf area.
+            </p>
+          </div>
+
+          <!-- AI Confidence Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 text-sm">AI Model Confidence</h3>
+              <span id="res-confidence-score" class="text-xl font-extrabold text-agri-700">92%</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div id="res-confidence-bar" class="bg-agri-600 h-full rounded-full" style="width: 92%;"></div>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 text-[11px] text-slate-600 space-y-1">
+              <div class="flex justify-between"><span>Image Sharpness:</span> <b id="res-quality-sharpness">Good (184.2)</b></div>
+              <div class="flex justify-between"><span>Lighting Exposure:</span> <b id="res-quality-exposure">Balanced (142.0)</b></div>
+              <div class="flex justify-between"><span>Model Architecture:</span> <b>PlantVillage-CV-v2.4</b></div>
+            </div>
+          </div>
+
+          <!-- Differential Diagnosis Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm">Alternative Differential Diagnoses</h3>
+            <div id="res-alternatives-list" class="space-y-2 text-xs">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16 Detailed Diagnostic Report Sections (Grid Cards) -->
+      <div class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">Comprehensive Agronomic Diagnostic Record (16 Fields)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- 1. Symptoms Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center space-x-2 text-agri-800 font-bold text-sm">
+              <i data-lucide="eye" class="w-4 h-4 text-agri-600"></i>
+              <span>6. Visible Symptoms & Characteristics</span>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed" id="res-field-symptoms">Dark brown to black concentric ring spots resembling a target board on older leaves...</p>
+            <div class="pt-2 border-t border-slate-100">
+              <span class="text-[11px] font-semibold text-agri-800">தமிழ் விளக்கம்:</span>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed" id="res-field-tamil-symptoms">இலைகளில் வட்ட வளையங்களுடன் கூடிய பழுப்பு கருகல் புள்ளிகள் தோன்றும்...</p>
+            </div>
+          </div>
+
+          <!-- 2. Pathogen & Causes Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center space-x-2 text-agri-800 font-bold text-sm">
+              <i data-lucide="microscope" class="w-4 h-4 text-agri-600"></i>
+              <span>5 & 7. Pathogen & Causal Factors</span>
+            </div>
+            <div class="text-xs text-slate-700 space-y-2">
+              <div><b>Pathogen Classification:</b> <span id="res-field-pathogen">Alternaria solani (Fungus)</span></div>
+              <div><b>Environmental Drivers:</b> <span id="res-field-causes">Warm temperatures (24°C-29°C) with alternating wet and dry periods...</span></div>
+            </div>
+          </div>
+
+          <!-- 3. Organic Treatments Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 border-l-4 border-l-emerald-500">
+            <div class="flex items-center space-x-2 text-emerald-900 font-bold text-sm">
+              <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i>
+              <span>12. Organic Management Options</span>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed" id="res-field-organic">Foliar spray of Trichoderma harzianum (5g/L), Neem oil 1%, or Copper Octanoate...</p>
+            <div class="pt-2 border-t border-slate-100">
+              <span class="text-[11px] font-semibold text-emerald-800">இயற்கை வழி சிகிச்சை:</span>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed" id="res-field-tamil-organic">டிரைக்கோடெர்மா அல்லது வேப்பெண்ணெய் கரைசல் தெளிக்கவும்...</p>
+            </div>
+          </div>
+
+          <!-- 4. Chemical Treatments Card -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 border-l-4 border-l-blue-500">
+            <div class="flex items-center space-x-2 text-blue-900 font-bold text-sm">
+              <i data-lucide="flask-conical" class="w-4 h-4 text-blue-600"></i>
+              <span>13. Chemical Management (Approved Formulations)</span>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed" id="res-field-chemical">Mancozeb 75 WP (2g/L), Chlorothalonil 75 WP (2g/L), or Azoxystrobin 23 SC (1ml/L)...</p>
+            <div class="pt-2 border-t border-slate-100">
+              <span class="text-[11px] font-semibold text-blue-800">இரசாயன மருந்துகள்:</span>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed" id="res-field-tamil-chemical">மேன்கோசெப் 75 WP அல்லது குளோரோதலோனில் தெளிக்கவும்...</p>
+            </div>
+          </div>
+
+          <!-- 5. Prevention & Hygiene -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center space-x-2 text-agri-800 font-bold text-sm">
+              <i data-lucide="shield-check" class="w-4 h-4 text-agri-600"></i>
+              <span>14. Prevention & Orchard Sanitation</span>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed" id="res-field-prevention">Rotate crops for 3 years; stake plants; prune bottom 12 inches of foliage...</p>
+            <div class="pt-2 border-t border-slate-100">
+              <span class="text-[11px] font-semibold text-agri-800">தடுப்பு முறைகள்:</span>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed" id="res-field-tamil-prevention">செடிகளை கட்டி வளர்க்கவும். கீழ் இலைகளை வெட்டி விடவும்...</p>
+            </div>
+          </div>
+
+          <!-- 6. Monitoring & Expert Consultation -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center space-x-2 text-agri-800 font-bold text-sm">
+              <i data-lucide="user-check" class="w-4 h-4 text-agri-600"></i>
+              <span>15 & 16. Monitoring & Expert Consultation Criteria</span>
+            </div>
+            <div class="text-xs text-slate-700 space-y-2">
+              <div><b>Scouting Schedule:</b> <span id="res-field-monitoring">Inspect lower leaves weekly starting at fruit set...</span></div>
+              <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-900">
+                <b>When to Contact Extension Officer:</b> <span id="res-field-expert">If lesions progress above mid-canopy during early fruit swell...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multimodal Second Opinion -->
+      <div id="gemini-explanation-card" class="bg-gradient-to-r from-emerald-950 via-slate-900 to-agri-950 text-white p-6 rounded-2xl shadow-sm space-y-3 border border-emerald-500/30">
+        <div class="flex items-center space-x-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
+          <i data-lucide="cpu" class="w-4 h-4"></i>
+          <span>Multimodal Vision Diagnostic Evaluation</span>
+        </div>
+        <div id="gemini-explanation-body" class="text-xs text-slate-200 leading-relaxed whitespace-pre-line">
+          <!-- Populated by Vision AI response -->
+        </div>
+      </div>
+
+      <!-- Legal & Technical Disclaimer Footer -->
+      <div class="bg-slate-100 border border-slate-200 p-4 rounded-xl text-slate-500 text-xs leading-relaxed space-y-1">
+        <p class="font-bold text-slate-700">Disclaimer & Triage Notice:</p>
+        <p>This report presents model predictions generated by AgriScan AI's computer vision engine. It does not replace physical inspection by an accredited agricultural extension specialist or official laboratory testing. Adhere to all safety labels and local chemical usage regulations.</p>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 4: AI TREATMENT ASSISTANT ================= -->
+    <section id="page-chat" class="page-content hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">AI Agricultural Treatment Assistant</h1>
+          <p class="text-sm text-slate-500">Ask questions connected directly to your uploaded plant diagnosis in English or Tamil (தமிழ்).</p>
+        </div>
+        <!-- Language Selector Toggle -->
+        <div class="flex items-center space-x-2">
+          <span class="text-xs font-semibold text-slate-600">Language:</span>
+          <div class="flex bg-white p-1 rounded-xl border border-slate-200 text-xs font-bold">
+            <button id="chat-lang-en" onclick="setChatLanguage('en')" class="px-3 py-1.5 rounded-lg bg-agri-700 text-white transition-all shadow-sm">English</button>
+            <button id="chat-lang-ta" onclick="setChatLanguage('ta')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">தமிழ் (Tamil)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagnosis Context Pill -->
+      <div id="chat-context-card" class="bg-agri-50 border border-agri-200 p-4 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-agri-200 text-agri-800 flex items-center justify-center font-bold">
+            <i data-lucide="leaf" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-xs text-agri-700 font-bold uppercase tracking-wider">Active Diagnosis Context</div>
+            <div class="text-sm font-extrabold text-slate-900" id="chat-ctx-title">Tomato — Early Blight (Alternaria solani)</div>
+          </div>
+        </div>
+        <span class="text-xs font-bold text-agri-800 bg-white px-3 py-1 rounded-full border border-agri-200 shadow-2xs" id="chat-ctx-severity">Severity: 18.4%</span>
+      </div>
+
+      <!-- Quick Prompt Pills -->
+      <div class="space-y-2">
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Frequently Asked Diagnostic Questions:</div>
+        <div class="flex flex-wrap gap-2" id="quick-prompts-container">
+          <!-- Populated by JS based on language -->
+        </div>
+      </div>
+
+      <!-- Chat Transcript Box -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[520px]">
+        <!-- Scrollable Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4">
+          <!-- Initial Welcome Message -->
+          <div class="flex items-start space-x-3 max-w-2xl">
+            <div class="w-8 h-8 rounded-full bg-agri-700 text-white flex items-center justify-center shrink-0 text-xs">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </div>
+            <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4 text-xs text-slate-800 leading-relaxed shadow-2xs">
+              <p class="font-bold text-slate-900 mb-1">AgriScan Extension Specialist</p>
+              <p id="chat-initial-text">Hello! I am connected to your plant diagnostic scan. Ask me anything about chemical application dosages, organic bio-treatments, disease spread risks, or recovery monitoring in English or Tamil!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl">
+          <form id="chat-form" onsubmit="sendChatMessage(event)" class="flex items-center space-x-3">
+            <input type="text" id="chat-input" placeholder="Type your agricultural question here..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-agri-500">
+            <button type="submit" class="px-5 py-3 bg-agri-700 hover:bg-agri-800 text-white rounded-xl font-bold text-sm shadow-sm transition-all flex items-center space-x-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Send</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 5: DISEASE LIBRARY ================= -->
+    <section id="page-library" class="page-content hidden space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Crop Disease Knowledge Base</h1>
+          <p class="text-sm text-slate-500">Searchable repository of 38 PlantVillage computer vision classes plus extended agricultural crops.</p>
+        </div>
+        <div class="text-xs text-slate-500">
+          Showing <span id="library-count" class="font-bold text-agri-700">0</span> diseases
+        </div>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+        <!-- Search -->
+        <div class="relative w-full md:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+          <input type="text" id="library-search" oninput="filterLibrary()" placeholder="Search crop, disease, or symptom..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-agri-500">
+        </div>
+
+        <!-- Filter Dropdowns -->
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <!-- Crop Filter -->
+          <select id="lib-crop-filter" onchange="filterLibrary()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none">
+            <option value="All">All Crops</option>
+            <!-- Populated by JS -->
+          </select>
+
+          <!-- Pathogen Filter -->
+          <select id="lib-pathogen-filter" onchange="filterLibrary()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none">
+            <option value="All">All Pathogens</option>
+            <option value="Fungus">Fungus</option>
+            <option value="Bacteria">Bacteria</option>
+            <option value="Virus">Virus</option>
+            <option value="Oomycete">Oomycete</option>
+            <option value="Pest">Pest</option>
+            <option value="Healthy">Healthy Plant</option>
+          </select>
+
+          <!-- CV Supported Only Toggle -->
+          <label class="flex items-center space-x-2 text-xs font-semibold text-slate-700 cursor-pointer">
+            <input type="checkbox" id="lib-cv-only" onchange="filterLibrary()" class="rounded text-agri-600 focus:ring-agri-500">
+            <span>PlantVillage CV Model Only</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Disease Cards Grid -->
+      <div id="library-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Disease Detail Modal -->
+      <div id="disease-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div class="flex justify-between items-start border-b border-slate-100 pb-4">
+            <div>
+              <span id="modal-crop-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-agri-100 text-agri-800">Crop</span>
+              <h3 id="modal-disease-title" class="text-2xl font-bold text-slate-900 mt-1">Disease Name</h3>
+              <p id="modal-scientific-name" class="text-xs text-slate-500 italic">Scientific Name</p>
+            </div>
+            <button onclick="closeDiseaseModal()" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
+            <div>
+              <h4 class="font-bold text-slate-900 mb-1">Symptoms:</h4>
+              <p id="modal-symptoms" class="text-slate-600"></p>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 mb-1">Organic Management:</h4>
+              <p id="modal-organic" class="text-slate-600"></p>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 mb-1">Chemical Formulations:</h4>
+              <p id="modal-chemical" class="text-slate-600"></p>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 mb-1">Prevention & Sanitation:</h4>
+              <p id="modal-prevention" class="text-slate-600"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 6: MY DIAGNOSIS HISTORY ================= -->
+    <section id="page-history" class="page-content hidden space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Diagnosis History & Longitudinal Tracking</h1>
+          <p class="text-sm text-slate-500">Review past scans, download reports, and compare follow-up photographs across different dates.</p>
+        </div>
+        <button onclick="openComparisonSelector()" class="px-4 py-2 bg-agri-700 hover:bg-agri-800 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center space-x-2">
+          <i data-lucide="git-compare" class="w-4 h-4"></i>
+          <span>Side-by-Side Date Comparison</span>
+        </button>
+      </div>
+
+      <!-- History Table / Cards -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                <th class="p-4">Scan ID & Thumb</th>
+                <th class="p-4">Crop</th>
+                <th class="p-4">Predicted Diagnosis</th>
+                <th class="p-4">Severity %</th>
+                <th class="p-4">Confidence</th>
+                <th class="p-4">Date</th>
+                <th class="p-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body" class="divide-y divide-slate-100 text-xs">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Comparison Modal Tool -->
+      <div id="compare-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-4xl w-full p-6 sm:p-8 space-y-6 shadow-2xl max-h-[92vh] overflow-y-auto">
+          <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+            <div>
+              <h3 class="text-xl font-bold text-slate-900">Longitudinal Date Comparison Tool</h3>
+              <p class="text-xs text-slate-500">Track visual changes across two different scanning dates.</p>
+            </div>
+            <button onclick="closeComparisonModal()" class="p-2 text-slate-400 hover:text-slate-700">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <!-- Selection Controls -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Baseline Scan (Date 1):</label>
+              <select id="compare-select-1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-medium"></select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Follow-up Scan (Date 2):</label>
+              <select id="compare-select-2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-medium"></select>
+            </div>
+          </div>
+          <button onclick="executeComparison()" class="w-full py-2.5 bg-agri-700 hover:bg-agri-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+            Compare Selected Scans
+          </button>
+
+          <!-- Comparison Results Viewport -->
+          <div id="compare-result-view" class="hidden space-y-4 pt-2">
+            <!-- Strict Agronomic Disclaimer -->
+            <div class="p-4 bg-amber-50 border-l-4 border-l-amber-500 rounded-r-xl text-amber-900 text-xs leading-relaxed space-y-1">
+              <div class="font-bold flex items-center space-x-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                <span>Strict Agronomic Recovery Notice</span>
+              </div>
+              <p id="compare-disclaimer-en"></p>
+              <p id="compare-disclaimer-ta" class="pt-1 text-[11px] text-amber-800"></p>
+            </div>
+
+            <!-- Two-Image Visual Display -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <div class="text-xs font-bold text-slate-700 flex justify-between">
+                  <span>Baseline Scan</span>
+                  <span id="comp-date-1" class="text-slate-400 font-normal"></span>
+                </div>
+                <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                  <img id="comp-img-1" src="" class="w-full h-full object-cover">
+                </div>
+                <div class="text-xs text-slate-600 space-y-0.5" id="comp-meta-1"></div>
+              </div>
+              <div class="space-y-2">
+                <div class="text-xs font-bold text-slate-700 flex justify-between">
+                  <span>Follow-Up Scan</span>
+                  <span id="comp-date-2" class="text-slate-400 font-normal"></span>
+                </div>
+                <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                  <img id="comp-img-2" src="" class="w-full h-full object-cover">
+                </div>
+                <div class="text-xs text-slate-600 space-y-0.5" id="comp-meta-2"></div>
+              </div>
+            </div>
+
+            <!-- Delta Summary -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-1" id="comp-summary-box">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 7: ADMIN DASHBOARD ================= -->
+    <section id="page-admin" class="page-content hidden space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">System Admin & Model Performance Dashboard</h1>
+          <p class="text-sm text-slate-500">Live operational metrics, authentic dataset benchmarks, API health, and rejected analysis logs.</p>
+        </div>
+        <button onclick="refreshAdminData()" class="px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-semibold text-slate-700 flex items-center space-x-1.5 shadow-2xs">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Refresh Metrics</span>
+        </button>
+      </div>
+
+      <!-- Real Analytics Metric Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">Total Uploads</div>
+          <div class="text-3xl font-extrabold text-slate-900 mt-2" id="adm-total-scans">0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Processed by AI Model</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">Diseased Detected</div>
+          <div class="text-3xl font-extrabold text-rose-600 mt-2" id="adm-diseased-scans">0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Requiring treatment</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">Healthy Samples</div>
+          <div class="text-3xl font-extrabold text-emerald-600 mt-2" id="adm-healthy-scans">0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Zero foliar necrosis</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">Uncertain / Rejections</div>
+          <div class="text-3xl font-extrabold text-amber-600 mt-2" id="adm-uncertain-scans">0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Insufficient evidence / Non-plant</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-bold text-slate-900 text-sm">Crop Distribution of Field Scans</h3>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chart-crops"></canvas>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-bold text-slate-900 text-sm">Pathogen Classification Breakdown</h3>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chart-pathogens"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dataset & Model Version Benchmark Info -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <h3 class="font-bold text-slate-900 text-sm">PlantVillage Benchmark & Model Architecture</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+          <div class="p-3 bg-slate-50 rounded-xl">
+            <span class="text-slate-400 block">Dataset</span>
+            <b class="text-slate-900">PlantVillage (54,306 images)</b>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl">
+            <span class="text-slate-400 block">Validation Accuracy</span>
+            <b class="text-emerald-700">94.6%</b>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl">
+            <span class="text-slate-400 block">Precision / Recall</span>
+            <b class="text-slate-900">93.8% / 94.1%</b>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl">
+            <span class="text-slate-400 block">Inference Speed</span>
+            <b class="text-slate-900">~142 ms / image</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Failed Analysis Logs (Non-plant, blurry, low-confidence) -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Failed Analysis & Uncertainty Logs</h3>
+            <p class="text-xs text-slate-500">Record of images rejected due to blur, non-plant tissue, or insufficient confidence.</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+                <th class="p-3">File</th>
+                <th class="p-3">Reason / Trigger</th>
+                <th class="p-3">Details</th>
+                <th class="p-3">Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="failed-logs-table" class="divide-y divide-slate-100">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Vision AI API Configuration -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h3 class="font-bold text-slate-900 text-sm">Vision AI API Key</h3>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Active Status: Connected
+          </span>
+        </div>
+        <p class="text-xs text-slate-500">Configured for multimodal disease detection, visual lesion explanation, and Tamil/English treatment advisory.</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="password" id="nvidia-key-input" placeholder="Enter API Key..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs focus:ring-2 focus:ring-agri-500 focus:outline-none font-mono">
+          <button onclick="saveNvidiaApiKey()" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center space-x-1.5">
+            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            <span>Update API Key</span>
+          </button>
+        </div>
+        <p id="nvidia-key-status" class="text-xs text-emerald-600 hidden font-semibold">API Key updated and verified!</p>
+      </div>
+
+      <!-- Gemini API Key Configuration -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <h3 class="font-bold text-slate-900 text-sm">Google Gemini Vision & Chatbot API Configuration (Secondary Fallback)</h3>
+        <p class="text-xs text-slate-500">Optional secondary provider. When configured, AgriScan AI can use Gemini Vision alongside the primary vision engine.</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="password" id="gemini-key-input" placeholder="Enter GEMINI_API_KEY..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs focus:ring-2 focus:ring-agri-500 focus:outline-none">
+          <button onclick="saveApiKey()" class="px-5 py-2.5 bg-agri-700 hover:bg-agri-800 text-white rounded-xl text-xs font-bold shadow-sm transition-all">Save Gemini Key</button>
+        </div>
+        <p id="gemini-key-status" class="text-xs text-emerald-600 hidden font-semibold">Settings updated successfully!</p>
+      </div>
+    </section>
+
+    <!-- ================= PAGE: LOGIN ================= -->
+    <section id="page-login" class="page-content hidden max-w-xl mx-auto py-8">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden p-8 sm:p-10 space-y-6">
+        <!-- Logo & Header -->
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-agri-800 to-agri-600 text-white flex items-center justify-center mx-auto shadow-md shadow-agri-800/20">
+            <i data-lucide="sprout" class="w-8 h-8"></i>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-agri-950 tracking-tight">Sign In to AgriScan<span class="text-agri-600">.AI</span></h2>
+          <p class="text-xs sm:text-sm text-slate-500">Access your personal diagnosis logs, recovery records, and agricultural advisory</p>
+        </div>
+
+        <!-- Alert Notification -->
+        <div id="login-error-alert" class="hidden p-3 rounded-xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200"></div>
+
+        <!-- Login Form -->
+        <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          <!-- Email Field -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email Address</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </div>
+              <input type="email" id="login-email" required placeholder="farmer@example.com" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Password</label>
+              <button type="button" onclick="navigateTo('forgot-password')" class="text-xs font-semibold text-agri-700 hover:text-agri-800 hover:underline">Forgot password?</button>
+            </div>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+              </div>
+              <input type="password" id="login-password" required placeholder="••••••••••••" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+              <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me -->
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center space-x-2 text-xs text-slate-600 cursor-pointer">
+              <input type="checkbox" id="login-remember" checked class="w-4 h-4 text-agri-600 border-slate-300 rounded focus:ring-agri-500">
+              <span>Remember me for 30 days</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="login-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-agri-700 to-agri-800 hover:from-agri-800 hover:to-agri-900 text-white font-bold rounded-xl shadow-md shadow-agri-800/20 transition-all flex items-center justify-center space-x-2 text-sm">
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            <span>Sign In to AgriScan AI</span>
+          </button>
+        </form>
+
+        <!-- Demo Account Helper Card -->
+        <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-emerald-900 flex items-center space-x-1.5">
+              <i data-lucide="key" class="w-3.5 h-3.5 text-emerald-700"></i>
+              <span>One-Click Demo Account</span>
+            </span>
+            <span class="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-bold">Instant Access</span>
+          </div>
+          <p class="text-[11px] text-emerald-800">Pre-configured demo farmer account for immediate exploration:</p>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] font-mono bg-white/90 p-2.5 rounded-xl border border-emerald-200">
+            <div>
+              <span class="text-slate-400">User:</span> <b class="text-slate-800">farmer@agriscan.ai</b><br>
+              <span class="text-slate-400">Pass:</span> <b class="text-slate-800">Farmer@123</b>
+            </div>
+            <button type="button" onclick="handleDemoLogin()" class="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-sans font-bold text-xs transition-colors shrink-0">
+              Fill & Login
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer Link -->
+        <div class="text-center pt-2 border-t border-slate-100">
+          <p class="text-xs text-slate-500">
+            Don't have an AgriScan account?
+            <button onclick="navigateTo('signup')" class="text-agri-700 font-bold hover:underline ml-1">Create an account</button>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE: SIGNUP ================= -->
+    <section id="page-signup" class="page-content hidden max-w-xl mx-auto py-8">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden p-8 sm:p-10 space-y-6">
+        <!-- Logo & Header -->
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-agri-800 to-agri-600 text-white flex items-center justify-center mx-auto shadow-md shadow-agri-800/20">
+            <i data-lucide="user-plus" class="w-8 h-8"></i>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-agri-950 tracking-tight">Create Free Account</h2>
+          <p class="text-xs sm:text-sm text-slate-500">Join farmers and agricultural researchers powered by AgriScan AI</p>
+        </div>
+
+        <!-- Alert Notification -->
+        <div id="signup-error-alert" class="hidden p-3 rounded-xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200"></div>
+
+        <!-- Signup Form -->
+        <form onsubmit="handleSignupSubmit(event)" class="space-y-4">
+          <!-- Full Name -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name *</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="user" class="w-4 h-4"></i>
+              </div>
+              <input type="text" id="signup-name" required placeholder="e.g. Ramesh Kumar" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+            </div>
+          </div>
+
+          <!-- Email Address -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email Address *</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </div>
+              <input type="email" id="signup-email" required placeholder="farmer@example.com" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+            </div>
+          </div>
+
+          <!-- Mobile & Country Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mobile Number (Optional)</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i data-lucide="phone" class="w-4 h-4"></i>
+                </div>
+                <input type="tel" id="signup-mobile" placeholder="+91 98765 43210" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Country</label>
+              <select id="signup-country" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none transition-all">
+                <option value="India" selected>India</option>
+                <option value="United States">United States</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Sri Lanka">Sri Lanka</option>
+                <option value="Australia">Australia</option>
+                <option value="Canada">Canada</option>
+                <option value="Other">Other Country</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Preferred Language -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Preferred Diagnostic Language</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="flex items-center space-x-2 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:border-agri-500 transition-colors">
+                <input type="radio" name="signup-lang" id="signup-lang-en" value="en" checked class="text-agri-600 focus:ring-agri-500">
+                <span class="text-xs font-bold text-slate-800">English</span>
+              </label>
+              <label class="flex items-center space-x-2 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:border-agri-500 transition-colors">
+                <input type="radio" name="signup-lang" id="signup-lang-ta" value="ta" class="text-agri-600 focus:ring-agri-500">
+                <span class="text-xs font-bold text-slate-800">தமிழ் (Tamil)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Password Field with Live Strength Meter -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Password *</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+              </div>
+              <input type="password" id="signup-password" required placeholder="Create strong password" oninput="checkPasswordStrengthRealtime(this.value); checkPasswordMatchRealtime();" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+              <button type="button" onclick="togglePasswordVisibility('signup-password', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <!-- Strength Bar -->
+            <div class="mt-2 space-y-1">
+              <div class="flex items-center justify-between text-[10px]">
+                <span class="text-slate-400">Security Strength:</span>
+                <span id="signup-pwd-strength-label" class="font-bold"></span>
+              </div>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                <div id="signup-pwd-strength-bar" class="w-0 h-full transition-all"></div>
+              </div>
+              <!-- Checklist Requirements -->
+              <div class="flex flex-wrap gap-x-3 gap-y-1 text-[10px] pt-1">
+                <span id="pwd-req-length" class="text-slate-400 flex items-center space-x-1"><span>•</span><span>8+ characters</span></span>
+                <span id="pwd-req-letter" class="text-slate-400 flex items-center space-x-1"><span>•</span><span>At least 1 letter</span></span>
+                <span id="pwd-req-number" class="text-slate-400 flex items-center space-x-1"><span>•</span><span>At least 1 number</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Confirm Password *</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="check-check" class="w-4 h-4"></i>
+              </div>
+              <input type="password" id="signup-confirm-password" required placeholder="Repeat your password" oninput="checkPasswordMatchRealtime();" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all">
+            </div>
+            <div id="signup-pwd-match-notice" class="hidden text-[11px] font-semibold mt-1"></div>
+          </div>
+
+          <!-- Terms & Policy Checkbox -->
+          <div class="pt-1">
+            <label class="flex items-start space-x-2.5 text-xs text-slate-600 cursor-pointer">
+              <input type="checkbox" id="signup-terms" checked required class="w-4 h-4 mt-0.5 text-agri-600 border-slate-300 rounded focus:ring-agri-500">
+              <span class="leading-relaxed">I accept the AgriScan AI Terms of Service and Privacy Policy for agricultural diagnostic advisory.</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="signup-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-agri-700 to-agri-800 hover:from-agri-800 hover:to-agri-900 text-white font-bold rounded-xl shadow-md shadow-agri-800/20 transition-all flex items-center justify-center space-x-2 text-sm">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Create Free Account</span>
+          </button>
+        </form>
+
+        <!-- Footer Link -->
+        <div class="text-center pt-2 border-t border-slate-100">
+          <p class="text-xs text-slate-500">
+            Already registered on AgriScan AI?
+            <button onclick="navigateTo('login')" class="text-agri-700 font-bold hover:underline ml-1">Sign In here</button>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE: FORGOT PASSWORD ================= -->
+    <section id="page-forgot-password" class="page-content hidden max-w-md mx-auto py-10">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-xl p-8 sm:p-10 space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto">
+            <i data-lucide="key-round" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-2xl font-extrabold text-agri-950">Reset Password</h2>
+          <p class="text-xs text-slate-500">Enter your registered email and we'll dispatch a secure recovery link</p>
+        </div>
+
+        <div id="forgot-alert" class="hidden"></div>
+
+        <form onsubmit="handleForgotPasswordSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Registered Email</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </div>
+              <input type="email" id="forgot-email" required placeholder="farmer@example.com" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 focus:ring-2 focus:ring-agri-500/20 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none">
+            </div>
+          </div>
+
+          <button type="submit" id="forgot-submit-btn" class="w-full py-3 bg-agri-700 hover:bg-agri-800 text-white font-bold rounded-xl shadow-sm text-xs sm:text-sm transition-all flex items-center justify-center space-x-1.5">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Send Recovery Link</span>
+          </button>
+        </form>
+
+        <!-- Local Test Environment Fast Token Click -->
+        <div id="forgot-dev-token-box" class="hidden p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs">
+          <span class="font-bold text-slate-700 block">Development Recovery Helper:</span>
+          <p class="text-slate-500 text-[11px]">Click below to test the password reset screen directly:</p>
+          <button id="forgot-dev-reset-link" class="w-full py-2 bg-agri-100 hover:bg-agri-200 text-agri-900 font-bold rounded-lg text-xs transition-colors">
+            Proceed with Reset Token
+          </button>
+        </div>
+
+        <div class="text-center pt-2 border-t border-slate-100">
+          <button onclick="navigateTo('login')" class="text-xs font-semibold text-slate-600 hover:text-agri-700 flex items-center justify-center space-x-1 mx-auto">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Back to Sign In</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE: RESET PASSWORD ================= -->
+    <section id="page-reset-password" class="page-content hidden max-w-md mx-auto py-10">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-xl p-8 sm:p-10 space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-2xl font-extrabold text-agri-950">Set New Password</h2>
+          <p class="text-xs text-slate-500">Choose a secure, strong password for your account</p>
+        </div>
+
+        <div id="reset-error-alert" class="hidden p-3 rounded-xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200"></div>
+
+        <form onsubmit="handleResetPasswordSubmit(event)" class="space-y-4">
+          <!-- Hidden or visible token -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Reset Security Token</label>
+            <input type="text" id="reset-token-input" required placeholder="Paste recovery token" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3 py-2 text-xs font-mono text-slate-700">
+          </div>
+
+          <!-- New Password -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">New Password</label>
+            <div class="relative">
+              <input type="password" id="reset-new-password" required placeholder="At least 8 characters" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-800 pr-10">
+              <button type="button" onclick="togglePasswordVisibility('reset-new-password', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirm New Password -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Confirm New Password</label>
+            <input type="password" id="reset-confirm-password" required placeholder="Repeat new password" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-800">
+          </div>
+
+          <button type="submit" id="reset-submit-btn" class="w-full py-3 bg-agri-700 hover:bg-agri-800 text-white font-bold rounded-xl shadow-sm text-xs sm:text-sm transition-all flex items-center justify-center space-x-1.5">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>Update Password</span>
+          </button>
+        </form>
+
+        <div class="text-center pt-2 border-t border-slate-100">
+          <button onclick="navigateTo('login')" class="text-xs font-semibold text-slate-600 hover:text-agri-700 flex items-center justify-center space-x-1 mx-auto">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Cancel and return to Sign In</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE: USER PROFILE ================= -->
+    <section id="page-profile" class="page-content hidden max-w-4xl mx-auto py-6 space-y-6">
+      <!-- Profile Header Banner -->
+      <div class="bg-gradient-to-r from-agri-950 via-agri-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+          <div id="profile-card-avatar" class="w-16 h-16 rounded-2xl bg-agri-600 text-white flex items-center justify-center text-2xl font-extrabold shadow-lg">
+            F
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h2 id="profile-card-name" class="text-xl sm:text-2xl font-extrabold">Demo Farmer</h2>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-agri-500/20 text-agri-300 border border-agri-400/30">Verified</span>
+            </div>
+            <p id="profile-card-email" class="text-xs sm:text-sm text-slate-300 font-mono">farmer@agriscan.ai</p>
+            <p id="profile-created" class="text-[11px] text-slate-400 mt-1">Member since: Active</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="navigateTo('history')" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl border border-white/20 transition-all flex items-center space-x-1.5">
+            <i data-lucide="history" class="w-3.5 h-3.5"></i>
+            <span>My Diagnoses</span>
+          </button>
+          <button onclick="handleLogout()" class="px-4 py-2 bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-bold rounded-xl transition-all flex items-center space-x-1.5">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Scan Statistics Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-agri-100 text-agri-800 flex items-center justify-center">
+            <i data-lucide="scan" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div id="profile-stat-count" class="text-2xl font-bold text-slate-900">0</div>
+            <div class="text-xs text-slate-500">Total Diagnoses Scanned</div>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
+            <i data-lucide="leaf" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div id="profile-stat-healthy" class="text-2xl font-bold text-emerald-700">0</div>
+            <div class="text-xs text-slate-500">Healthy Plants Confirmed</div>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
+            <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div id="profile-stat-diseased" class="text-2xl font-bold text-amber-700">0</div>
+            <div class="text-xs text-slate-500">Diseases Managed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Details & Password Update Split Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Personal Details Form -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-4">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="user-cog" class="w-5 h-5 text-agri-700"></i>
+            <h3 class="font-bold text-slate-900 text-base">Account Information</h3>
+          </div>
+          <div id="profile-alert" class="hidden"></div>
+          <form onsubmit="handleProfileSave(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+              <input type="text" id="profile-name" required class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Email Address (Read-only)</label>
+              <input type="email" id="profile-email" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Mobile Contact</label>
+              <input type="tel" id="profile-mobile" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Country</label>
+                <input type="text" id="profile-country" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Language</label>
+                <select id="profile-lang" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-800">
+                  <option value="en">English</option>
+                  <option value="ta">தமிழ் (Tamil)</option>
+                </select>
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit" id="profile-save-btn" class="w-full py-2.5 bg-agri-700 hover:bg-agri-800 text-white rounded-xl text-xs sm:text-sm font-bold shadow-xs transition-colors flex items-center justify-center space-x-1.5">
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Save Profile Changes</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Security & Password Change Form -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-4">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="lock" class="w-5 h-5 text-agri-700"></i>
+            <h3 class="font-bold text-slate-900 text-base">Change Password</h3>
+          </div>
+          <div id="change-pwd-alert" class="hidden"></div>
+          <form onsubmit="handleChangePasswordSubmit(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Current Password</label>
+              <input type="password" id="pwd-current" required placeholder="Enter current password" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">New Password</label>
+              <input type="password" id="pwd-new" required placeholder="Min 8 chars, letter + number" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Confirm New Password</label>
+              <input type="password" id="pwd-confirm" required placeholder="Re-enter new password" class="w-full bg-slate-50 border border-slate-300 focus:border-agri-600 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800">
+            </div>
+            <div class="pt-2">
+              <button type="submit" id="pwd-change-btn" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs sm:text-sm font-bold shadow-xs transition-colors flex items-center justify-center space-x-1.5">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>Update Password</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-slate-700">AgriScan AI</span>
+        <span>• PlantVillage Computer Vision & Agricultural Pathological System</span>
+      </div>
+      <div>
+        <span>Advisory use only • Supports English & தமிழ்</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/upload.js"></script>
+  <script src="/js/results.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/library.js"></script>
+  <script src="/js/history.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
